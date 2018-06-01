@@ -1,0 +1,46 @@
+<% include ../../partials/header %>
+
+  <div class="create-user">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 m-auto">
+          <h1 class="display-4 text-center">Update
+            <%= user.name %> Profile</h1>
+          <p class="lead text-center">Update User Account</p>
+          <form action="/user/<%= user._id %>?_method=PUT" method="POST">
+            <div class="form-group">
+              <input type="text" class="form-control form-control-lg" placeholder="Name" value="<%= user.name %>" name="name" required
+              />
+              <small class="form-text text-muted">* Name</small>
+            </div>
+            <div class="form-group">
+              <input type="email" class="form-control form-control-lg" placeholder="Email Address" name="email" value="<%= user.email %>"
+              />
+              <small className="form-text text-muted">* Email</small>
+            </div>
+            <div class="form-group">
+              <select name="role" class="custom-select">
+                <option selected>
+                  <%= user.role %>
+                </option>
+                <% if(user.role === "Admin") { %>
+                  <option value="Programmer">Programmer</option>
+                  <option value="Sales">Sales</option>
+                  <% } else if (user.role === "Programmer") { %>
+                    <option value="Admin">Admin</option>
+                    <option value="Sales">Sales</option>
+                    <% } else { %>
+                      <option value="Admin">Admin</option>
+                      <option value="Programmer">Programmer</option>
+                      <% } %>
+              </select>
+              <small class="form-text text-muted">Role</small>
+            </div>
+            <input type="submit" class="btn btn-danger btn-block mt-4" value="Update" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% include ../../partials/footer %>

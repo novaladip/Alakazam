@@ -1,0 +1,15 @@
+.login {
+  margin-top: 7%;
+}
+
+#removeButton {
+  color: whitesmoke;
+}
+
+#removeButton:hover {
+  color: greenyellow;
+}
+
+body {
+  font-family: "Questrial", sans-serif;
+}

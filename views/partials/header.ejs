@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>MANG AW</title>
+  <!-- BOOTSTRAP CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+    crossorigin="anonymous">
+
+  <!-- FONT AWESOME -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+    crossorigin="anonymous">
+
+  <!-- FONTS GOOGLE -->
+  <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
+  <link rel="stylesheet" href="/stylesheets/main.css">
+
+
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
+    <div class="container">
+      <a class="navbar-brand" href="<%= currentUser ? '#' : '/' %> ">
+        <i class="fas fa-cut"></i>1NGQU</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mobile-nav">
+        <ul class="navbar-nav mr-auto">
+          <% if (!currentUser) { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/"> Home
+              </a>
+            </li>
+            <% } else { %>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-bars"></i> Menu
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="/user/management">
+                    <i class="fas fa-users-cog"></i>
+                    <small>User Management</small>
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="fas fa-money-bill-alt"></i>
+                    <small>Reimbursement Menu</small>
+                  </a>
+                </div>
+              </li>
+              <% } %>
+        </ul>
+
+        <% if (!currentUser) { %>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/user/login">Login</a>
+            </li>
+          </ul>
+          <% } else { %>
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false">
+                  Hi
+                  <%= currentUser.name %>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="/user/logout">Logout</a>
+                </div>
+              </li>
+            </ul>
+            <% } %>
+      </div>
+    </div>
+  </nav>
+  <!-- END OF NAVBAR -->
+
+  <!-- Alert  -->
+  <div class="container">
+
+    <% if(error && error.length > 0){ %>
+      <div class="alert alert-danger alert-dismissible fade show text-center" id="flash-message" role="alert">
+        <strong>
+          <%= error %>
+        </strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <% } %>
+        <% if(success && success.length > 0){ %>
+          <div class="alert alert-success text-center" id="flash-message" role="alert">
+            <strong>
+              <%= success %>
+            </strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <% } %>
+  </div>

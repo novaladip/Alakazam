@@ -1,0 +1,67 @@
+<% include ../../partials/header %>
+  <!-- Add Project Form -->
+  <div class="project-menu">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 m-auto border">
+          <h1 class="display-4 text-center">Create Project</h1>
+          <form action="/project" method="POST">
+            <div class="form-group">
+              <input type="text" class="form-control form-control-lg" placeholder="Client Name" name="clientName" />
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control form-control-lg" placeholder="Project Name" name="projectName" />
+            </div>
+
+            <input type="submit" class="btn btn-danger btn-block mt-4 mb-4" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- List of Project -->
+  <div class="container mt-5 border-top">
+    <div class="row">
+      <div class="col-md-10 col-12 col-sm-10 m-auto">
+        <h5 class="text-center mt-3 mb-2">Project Information</h1>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Project Name</th>
+                <th scope="col">Client Name</th>
+                <th scope="col">Submitted By</th>
+                <th scope="col">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% project.map((project, index) => { %>
+                <tr>
+                  <th scope="row">
+                    <%= index + 1 %>
+                  </th>
+                  <td>
+                    <%= project.name %>
+                  </td>
+                  <td>
+                    <%= project.client_name %>
+                  </td>
+                  <td>
+
+                    <%= project.createBy.name %>
+                  </td>
+                  <td>
+                    <%= moment(project.created).format('LL') %>
+                  </td>
+                </tr>
+                <% }) %>
+
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+
+
+  <% include ../../partials/footer %>

@@ -1,0 +1,34 @@
+<% include ../../partials/header %>
+
+  <div class="reimbursement-menu">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 m-auto border">
+          <h1 class="display-4 text-center">Add Reimbursement</h1>
+          <form action="/reimbursement" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+              <input type="text" class="form-control form-control-lg" placeholder="Project Name" name="projectName" />
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control form-control-lg" placeholder="Project Description" name="projectDescription" />
+            </div>
+            <div class="form-group">
+              <input type="number" class="form-control form-control-lg" name="expense" placeholder="250000" min="0">
+              <small class="form-text text-muted">Input 379987 instead of 379.987</small>
+            </div>
+            <div class="form-group">
+              <input type="date" class="form-control form-control-lg">
+            </div>
+            <div class="form-group">
+              <input type="file" name="image" class="form-control form-control-lg">
+              <small class="form-text text-muted">Foto</small>
+            </div>
+
+            <input type="submit" class="btn btn-danger btn-block mt-4 mb-4" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% include ../../partials/footer %>
