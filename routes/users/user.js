@@ -12,6 +12,7 @@ const User = require("../../models/User");
 router.get("/management", middleware.isAdmin, (req, res) => {
   // Find all user
   User.find()
+    .sort({ name: 1 })
     .then(user => {
       res.render("./main-menu/user-management/user-management", { user: user });
     })
@@ -85,7 +86,11 @@ router.get("/login", (req, res) => {
 router.post(
   "/login",
   passport.authenticate("local", {
-    failureRedirect: "/user/login"
+    failureRedirect: "/user/login",
+    failureFlash: {
+      type: "error",
+      message: "Invalid Email or password."
+    }
   }),
   (req, res) => {
     res.redirect("/user/management");
@@ -94,7 +99,7 @@ router.post(
 
 // @route   GET /user/logout
 // @desc    Logging out user
-// @access  Private
+// @access  Public
 router.get("/logout", (req, res) => {
   if (req.isAuthenticated()) {
     req.flash("success", `Logged out out! See you soon ${req.user.name}`);

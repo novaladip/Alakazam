@@ -21,26 +21,29 @@ const ReimbursementSchema = new Schema({
   status: {
     isApproved: {
       type: Boolean,
-      default: false,
-      require: true
+      default: false
     },
     isDecline: {
       type: Boolean,
-      default: false,
-      require: true
+      default: false
     }
   },
   foto: {
-    type: String,
-    required: true
+    type: String
   },
   createDate: {
     type: Date,
     default: Date.now
   },
   createBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    },
+    name: {
+      type: String,
+      require: true
+    }
   }
 });
 

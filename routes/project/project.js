@@ -11,7 +11,7 @@ const Project = require("../../models/Project");
 router.get("/menu", middleware.isSales, (req, res) => {
   Project.find()
     .sort({ created: -1 })
-    .populate("createBy")
+    .populate("createBy.id")
     .exec()
     .then(project => {
       console.log(project);
@@ -26,11 +26,17 @@ router.post("/", middleware.isSales, (req, res) => {
   const projectData = {
     name: req.body.projectName,
     client_name: req.body.clientName,
-    createBy: req.user._id
+    createBy: {
+      id: req.user._id,
+      name: req.user.name
+    }
   };
   Project.create(projectData)
     .then(project => {
-      req.flash("success", `${project.name} is successfully added`);
+      req.flash(
+        "success",
+        `${project.name} is successfully added, good job ${req.user.name}!`
+      );
       res.redirect("/project/menu");
     })
     .catch(err => {

@@ -44,16 +44,37 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fas fa-bars"></i> Menu
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="/user/management">
-                    <i class="fas fa-users-cog"></i>
-                    <small>User Management</small>
-                  </a>
-                  <a class="dropdown-item" href="#">
-                    <i class="fas fa-money-bill-alt"></i>
-                    <small>Reimbursement Menu</small>
-                  </a>
-                </div>
+                <% if(currentUser.role === "Admin") { %>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/user/management">
+                      <i class="fas fa-users-cog"></i>
+                      <small>User Management</small>
+                    </a>
+                    <a class="dropdown-item" href="/reimbursement/menu">
+                      <i class="fas fa-money-bill-alt"></i>
+                      <small>Reimbursement Menu</small>
+                    </a>
+                    <% } %>
+                      <% if(currentUser.role === "Sales" ) { %>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                          <a class="dropdown-item" href="/project/menu">
+                            <i class="fas fa-users-cog"></i>
+                            <small>Project Menu</small>
+                          </a>
+                          <a class="dropdown-item" href="/reimbursement/menu">
+                            <i class="fas fa-money-bill-alt"></i>
+                            <small>Reimbursement Menu</small>
+                          </a>
+                          <% } %>
+                            <% if(currentUser.role === "Programmer") { %>
+                              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="/reimbursement/menu">
+                                  <i class="fas fa-money-bill-alt"></i>
+                                  <small>Reimbursement Menu</small>
+                                </a>
+                                <% } %>
+
+                              </div>
               </li>
               <% } %>
         </ul>
@@ -78,8 +99,8 @@
               </li>
             </ul>
             <% } %>
-      </div>
-    </div>
+              </div>
+              </div>
   </nav>
   <!-- END OF NAVBAR -->
 

@@ -1,34 +1,121 @@
 <% include ../../partials/header %>
 
-  <div class="reimbursement-menu">
+  <div class="create-user">
     <div class="container">
       <div class="row">
-        <div class="col-md-8 m-auto border">
-          <h1 class="display-4 text-center">Add Reimbursement</h1>
-          <form action="/reimbursement" method="POST" enctype="multipart/form-data">
+        <div class="col-md-7 m-auto border">
+          <h1 class="display-4 text-center">Create Account</h1>
+          <p class="lead text-center">Create User Account</p>
+          <form action="/reimbursement" method="POST">
             <div class="form-group">
               <input type="text" class="form-control form-control-lg" placeholder="Project Name" name="projectName" />
+              <small class="form-text text-muted"></small>
             </div>
             <div class="form-group">
-              <input type="text" class="form-control form-control-lg" placeholder="Project Description" name="projectDescription" />
+              <input type="text" class="form-control form-control-lg" placeholder="Description" name="description">
+              <small className="form-text text-muted">Tell us about the reimbursement details!</small>
             </div>
             <div class="form-group">
-              <input type="number" class="form-control form-control-lg" name="expense" placeholder="250000" min="0">
-              <small class="form-text text-muted">Input 379987 instead of 379.987</small>
+              <input type="number" class="form-control form-control-lg" placeholder="20500" name="expense">
+              <small className="form-text text-muted">Tell about the reimbursement details!</small>
             </div>
             <div class="form-group">
-              <input type="date" class="form-control form-control-lg">
+              <input type="date" class="form-control form-control-lg" placeholder="Date" name="date" />
             </div>
             <div class="form-group">
-              <input type="file" name="image" class="form-control form-control-lg">
-              <small class="form-text text-muted">Foto</small>
+              <input type="file" class="form-control form-control-lg" name="foto" />
+              <small class="form-text text-muted">Bill Foto</small>
             </div>
-
             <input type="submit" class="btn btn-danger btn-block mt-4 mb-4" />
           </form>
         </div>
       </div>
     </div>
   </div>
+
+  <div class="reimbursement-list">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 m-auto">
+          <% if (totalExpense !== "undefined") { %>
+            <h2 class="text-left mt-4 border-bottom">
+              Total Expense: IDR
+              <%= totalExpense.toLocaleString() %>
+                </h5>
+                <% } %>
+                  <table class="table mt-3">
+                    <thead class="thead-light">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Expense</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Create Date</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% reimbursement.map((reimbursement, index) => { %>
+                        <tr>
+                          <th scope="row">
+                            <%= index +1 %>
+                          </th>
+                          <td>
+                            <%= reimbursement.createBy.name %>
+                          </td>
+                          <td>
+                            <%= reimbursement.projectName %>
+                          </td>
+                          <td> Rp.
+                            <%= reimbursement.expense.toLocaleString("INA") %>
+                          </td>
+                          <td>
+                            <% if (reimbursement.status.isApproved) { %>
+                              <p class="btn btn-success btn-sm">Approved</p>
+                              <% } else if (reimbursement.status.isDecline) { %>
+                                <p class="btn btn-danger btn-sm">Declined</p>
+                                <% } else { %>
+                                  <p class="btn btn-primary btn-sm">Pending</p>
+                                  <% } %>
+                          </td>
+                          <td>
+                            <%= moment(reimbursement.date).format("L") %>
+                          </td>
+                          <td>
+                            <%= moment(reimbursement.createDate).format("L") %>
+                          </td>
+                          <td>
+                            <img src="http://www.cmba.com/wp-content/themes/cmba-custom-theme/functions/images/thumb-default.png" class="img-fluid" id="reimbursementFoto">
+                          </td>
+                          <td>
+                            <% if (reimbursement.status.isApproved || reimbursement.status.isDecline) { %>
+                              <h5 class="text-center text-info"> - </h5>
+                              <% } else { %>
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                  <button type="submit" class="btn btn-danger btn-sm">Approve</button>
+                                  </form>
+
+                                  <form action="/reimbursement/<%= reimbursement._id %>/decline?_method=PUT" method="POST">
+                                    <button type="submit" class="btn btn-light btn-sm">Decline</button>
+                                  </form>
+                                </div>
+                                <% } %>
+
+                          </td>
+                        </tr>
+                        <% }) %>
+
+
+
+                    </tbody>
+                  </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <% include ../../partials/footer %>

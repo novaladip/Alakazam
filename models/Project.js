@@ -15,8 +15,14 @@ const ProjectSchema = {
     default: Date.now
   },
   createBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    },
+    name: {
+      type: String,
+      require: true
+    }
   }
 };
 

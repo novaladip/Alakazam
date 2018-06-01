@@ -13,3 +13,7 @@
 body {
   font-family: "Questrial", sans-serif;
 }
+
+#reimbursementFoto {
+  height: 32px;
+}
