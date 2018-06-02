@@ -29,7 +29,8 @@ const ReimbursementSchema = new Schema({
     }
   },
   foto: {
-    type: String
+    type: String,
+    require: true
   },
   createDate: {
     type: Date,

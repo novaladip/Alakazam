@@ -7,6 +7,8 @@ const mongoose = require("mongoose");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
 const morgan = require("morgan");
+const compression = require("compression");
+const zlip = require("zlib");
 
 // Load User Models
 const User = require("./models/User");
@@ -38,6 +40,7 @@ app.use(
 );
 app.use(methodOverride("_method"));
 app.use(flash());
+app.use(compression(9));
 app.use(morgan("dev"));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
@@ -72,12 +75,17 @@ app.use("/project", projectRoute);
 app.use("/reimbursement", reimbursementRoute);
 
 app.get("/", (req, res) => {
-  res.send("DASDADasda");
+  res.render("./index/landing");
+});
+
+app.get("*", (req, res) => {
+  req.flash("error", "Page that you looking for is not found, sorry.");
+  res.redirect("/");
 });
 
 // Port Config
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, (req, res) =>
-  console.log(`Server running at http://localhost${PORT}`)
+  console.log(`Server running at http://localhost:${PORT}`)
 );

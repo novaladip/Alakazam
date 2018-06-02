@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>MANG AW</title>
+  <title>K1NGQU</title>
   <!-- BOOTSTRAP CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
     crossorigin="anonymous">
@@ -24,9 +24,9 @@
 <body>
 
   <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <div class="container">
-      <a class="navbar-brand" href="<%= currentUser ? '#' : '/' %> ">
+      <a class="navbar-brand" href="#">
         <i class="fas fa-cut"></i>1NGQU</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
         <span class="navbar-toggler-icon"></span>
@@ -108,7 +108,7 @@
   <div class="container">
 
     <% if(error && error.length > 0){ %>
-      <div class="alert alert-danger alert-dismissible fade show text-center" id="flash-message" role="alert">
+      <div class="alert alert-danger alert-dismissible fade show text-center mt-2" id="flash-message" role="alert">
         <strong>
           <%= error %>
         </strong>
@@ -118,7 +118,7 @@
       </div>
       <% } %>
         <% if(success && success.length > 0){ %>
-          <div class="alert alert-success text-center" id="flash-message" role="alert">
+          <div class="alert alert-success text-center mt-2" id="flash-message" role="alert">
             <strong>
               <%= success %>
             </strong>

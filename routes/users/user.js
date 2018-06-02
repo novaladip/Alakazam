@@ -93,7 +93,7 @@ router.post(
     }
   }),
   (req, res) => {
-    res.redirect("/user/management");
+    res.redirect("/");
   }
 );
 
@@ -104,13 +104,9 @@ router.get("/logout", (req, res) => {
   if (req.isAuthenticated()) {
     req.flash("success", `Logged out out! See you soon ${req.user.name}`);
     req.logout();
-    res.redirect("/user/login");
+    res.redirect("/");
   } else {
-    req.flash(
-      "error",
-      "Too bad to be true, you're not logged in but you trying to logging out ur self. "
-    );
-    res.redirect("/user/login");
+    res.redirect("/");
   }
 });
 

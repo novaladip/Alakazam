@@ -1,0 +1,30 @@
+<% include ../partials/header %>
+
+  <div class="landing">
+    <div class="dark-overlay landing-inner text-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <q class="lead display-5"> You can never understand everything. But, you should push yourself to understand the system.
+            </q>
+            <p class="lead"> Ryan Dahl Creator of Node.js
+            </p>
+            <hr />
+            <% if (currentUser && currentUser.role === "Admin") { %>
+              <a href="/user/management" class="btn btn-lg btn-outline-light">Go To User Management Menu</a>
+              <a href="/reimbursement/menu" class="btn btn-lg btn-outline-light">Go To Reimbursement Menu</a>
+              <% } else if (currentUser && currentUser.role ==="Programmer") { %>
+                <a href="/reimbursement/menu" class="btn btn-lg btn-outline-light">Go To Reimbursement Menu</a>
+                <% } else if (currentUser && currentUser.role === "Sales") { %>
+                  <a href="/reimbursement/menu" class="btn btn-lg btn-outline-danger mr-2">Go To Reimbursement Menu</a>
+                  <a href="/project/menu" class="btn btn-lg btn-outline-light">Go To Project Menu</a>
+                  <% } else { %>
+                    <a href="/user/login" class="btn btn-lg btn-outline-primary">Login</a>
+                    <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% include ../partials/footer %>
