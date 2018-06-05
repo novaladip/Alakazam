@@ -2,21 +2,21 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ReimbursementSchema = new Schema({
-  projectName: {
-    type: String,
-    require: true
+  projectOrProspect: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Project"
   },
   description: {
     type: String,
-    require: true
+    required: true
   },
   expense: {
     type: Number,
-    require: true
+    required: true
   },
   date: {
     type: Date,
-    require: true
+    required: true
   },
   status: {
     isApproved: {
@@ -30,7 +30,7 @@ const ReimbursementSchema = new Schema({
   },
   foto: {
     type: String,
-    require: true
+    required: true
   },
   createDate: {
     type: Date,

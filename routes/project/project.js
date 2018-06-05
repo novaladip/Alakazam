@@ -8,13 +8,12 @@ const Project = require("../../models/Project");
 // @route   GET /project/menu
 // @desc    Rendering project menu
 // @access  Private
-router.get("/menu", middleware.isSales, (req, res) => {
+router.get("/menu", (req, res) => {
   Project.find()
     .sort({ created: -1 })
     .populate("createBy.id")
     .exec()
     .then(project => {
-      console.log(project);
       res.render("./main-menu/project/project-menu", { project: project });
     });
 });
@@ -28,8 +27,10 @@ router.post("/", middleware.isSales, (req, res) => {
     client_name: req.body.clientName,
     createBy: {
       id: req.user._id,
-      name: req.user.name
-    }
+      name: req.user.name,
+      category: req.body.category
+    },
+    category: req.body.category
   };
   Project.create(projectData)
     .then(project => {
@@ -42,6 +43,23 @@ router.post("/", middleware.isSales, (req, res) => {
     .catch(err => {
       req.flash("error", err.message);
       res.redirect("back");
+    });
+});
+
+// @route   GET /reimbursement/project/:id
+// @desc    Showing project reimbursement report
+// @access  Only admin
+router.get("/:id", middleware.isAdmin, (req, res) => {
+  Project.findById(req.params.id)
+    .populate({
+      path: "reimbursementList",
+      select:
+        "name status description expense date client_name category createDate foto createBy create"
+    })
+    .then(data => {
+      res.render("main-menu/project/project-detail", {
+        data: data
+      });
     });
 });
 

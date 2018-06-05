@@ -1,0 +1,142 @@
+<% include ../../partials/header %>
+
+  <div class="project-detail mt-2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 m-auto  border-bottom pb-5">
+          <div class="col-md-6 m-auto">
+            <h1 class="display-4 text-center">Reimbursement Report
+            </h1>
+            <p class="lead text-center">
+              on
+              <em>
+                <%= data.name %>
+              </em>
+              <%= data.category %>
+            </p>
+
+          </div>
+          <a href="/reimbursement/menu" class="btn btn-primary btn-sm mb-2">Back to Reimbursement Menu</a>
+          <table class="table m-auto">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Client Name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Date</th>
+                <th scope="col">Total Reimbursement</th>
+                <th scope="col">Total Expsene</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>
+                  <%= data.name %>
+                </td>
+                <td>
+                  <%= data.client_name %>
+                </td>
+                <td>
+                  <%= data.category %>
+                </td>
+                <td>
+                  <%= moment(data.created).format("LL") %>
+                </td>
+                <td>
+                  <%= data.reimbursementList.length %>
+                </td>
+                <td>
+                  <% let totalExpense = 0 %>
+                    <% data.reimbursementList.map(list => { %>
+                      <% if(list.status.isApproved) totalExpense += list.expense %>
+                        <% }) %>
+                          IDR
+                          <%= totalExpense.toLocaleString("INA") %>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reimbursement-list mt-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 m-auto">
+          <h5 class="lead text-right">Reimbursement Detail on
+            <em>
+              <%= data.name %>
+            </em>
+            <%= data.category %>
+          </h5>
+          <!-- The Modal -->
+          <div id="modalImage" class="modal">
+            <!-- The Close Button -->
+            <span class="close" id="close">&times;</span>
+            <!-- Modal Content (The Image) -->
+            <img class="modal-content" id="img01">
+          </div>
+          <table class="table table-striped m-auto">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Expense</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+                <th scope="col">Date Created</th>
+                <th scope="col">Foto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% data.reimbursementList.map((list, index) => { %>
+                <tr>
+                  <td scope="row">
+                    <%= index + 1 %>
+                  </td>
+                  <td>
+                    <%= list.createBy.name %>
+                  </td>
+                  <td>
+                    <%= list.description %>
+                  </td>
+                  <td>
+                    IDR
+                    <%= list.expense.toLocaleString("INA") %>
+                  </td>
+                  <td>
+                    <%= moment(list.date).format("LL") %>
+                  </td>
+                  <td>
+                    <% if (list.status.isApproved) { %>
+                      <p class="btn btn-success btn-sm">Approved</p>
+                      <% } else if (list.status.isDecline) { %>
+                        <p class="btn btn-danger btn-sm">Declined</p>
+                        <% } else { %>
+                          <p class="btn btn-primary btn-sm">Pending</p>
+                          <% } %>
+                  </td>
+                  <td>
+                    <%= moment(list.createDate).format("LL") %>
+                  </td>
+                  <td>
+                    <img src="<%= list.foto %>" class="img-fluid" id="reimbursementFoto" onclick="openImage(this)">
+                  </td>
+                </tr>
+                <% }) %>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <script src="/script/reimbursementFoto.js"></script>
+  <% include ../../partials/footer %>

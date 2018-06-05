@@ -6,13 +6,13 @@ const middleware = require("../../middleware/middleware");
 // Load User Models
 const User = require("../../models/User");
 
-// @route   GET /user/users-management
-// @desc    Rendering users-management page
+// @route   GET /user/user-management
+// @desc    Rendering user-management page
 // @access  Only Admin
 router.get("/management", middleware.isAdmin, (req, res) => {
   // Find all user
   User.find()
-    .sort({ name: 1 })
+    .sort({ createDate: -1 })
     .then(user => {
       res.render("./main-menu/user-management/user-management", { user: user });
     })
@@ -30,14 +30,17 @@ router.post("/", middleware.isAdmin, (req, res) => {
     name: req.body.name,
     email: req.body.email,
     role: req.body.role,
-    createdBy: {
-      name: req.user.name
-    },
-    id: req.user._id
+    createBy: {
+      name: req.user.name,
+      id: req.user._id
+    }
   };
   User.register(userData, req.body.password)
     .then(userCreated => {
-      req.flash("success", "Successfully added a new user account");
+      req.flash(
+        "success",
+        `Successfully create a new user for ${userCreated.name}`
+      );
       res.redirect("/user/management");
     })
     .catch(err => {
@@ -110,6 +113,9 @@ router.get("/logout", (req, res) => {
   }
 });
 
+// @route   DELETE /user/:user_id
+// @desc    Deleting user account
+// @access  Only admin
 router.delete("/:user_id", middleware.isAdmin, (req, res) => {
   User.findByIdAndRemove(req.params.user_id)
     .then(deletedUser => {

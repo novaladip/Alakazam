@@ -4,7 +4,8 @@ const passportLocalMongoose = require("passport-local-mongoose");
 
 const UserSchema = new Schema({
   email: {
-    type: String
+    type: String,
+    unique: true
   },
   password: {
     type: String
@@ -12,7 +13,8 @@ const UserSchema = new Schema({
   name: {
     type: String,
     minlength: 2,
-    maxlength: 45
+    maxlength: 45,
+    required: true
   },
   role: {
     type: String,
@@ -25,11 +27,11 @@ const UserSchema = new Schema({
   createBy: {
     name: {
       type: String,
-      require: true
+      required: true
     },
     id: {
       type: String,
-      require: true
+      required: true
     }
   }
 });

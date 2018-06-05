@@ -1,140 +1,124 @@
 <% include ../../partials/header %>
-
-  <% if (currentUser && currentUser.role !== "Admin") { %>
-    <div class="create-user mt-2">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-7 m-auto border">
-            <h1 class="display-4 text-center">Reimbursement Menu</h1>
-            <p class="lead text-center">Claim Reimbursement</p>
-            <form action="/reimbursement" method="POST" enctype="multipart/form-data">
-              <div class="form-group">
-                <input type="text" class="form-control form-control-lg" placeholder="Project Name" name="projectName" />
-                <small class="form-text text-muted"></small>
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control form-control-lg" placeholder="Description" name="description">
-                <small className="form-text text-muted">Tell us about the reimbursement details!</small>
-              </div>
-              <div class="form-group">
-                <input type="number" class="form-control form-control-lg" placeholder="20500" name="expense">
-                <small className="form-text text-muted">Tell about the reimbursement details!</small>
-              </div>
-              <div class="form-group">
-                <input type="date" class="form-control form-control-lg" placeholder="Date" name="date" />
-              </div>
-              <div class="form-group">
-                <input type="file" class="form-control form-control-lg" name="image" id="inputFoto" />
-                <small class="form-text text-muted">Bill Foto</small>
-              </div>
-              <input type="submit" class="btn btn-danger btn-block mt-4 mb-4" />
-            </form>
+  <div class="reimbursement-list">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 m-auto">
+          <!-- The Modal -->
+          <div id="modalImage" class="modal">
+            <!-- The Close Button -->
+            <span class="close" id="close">&times;</span>
+            <!-- Modal Content (The Image) -->
+            <img class="modal-content" id="img01">
           </div>
+          <div class="container mt-2 border-bottom">
+            <h4 class="display-4 text-center">Reimbursement Menu
+            </h4>
+            <% if (currentUser && currentUser.role !== "Admin") { %>
+              <div class="container mt-2">
+                <a href="/reimbursement/add-project" class="btn btn-primary btn-sm mr-1 mb-2">Add Reimbursement Claim on Project Task</a>
+                <a href="/reimbursement/add-prospect" class="btn btn-danger btn-sm ml-1 mb-2">Add Reimbursement Claim on Prospect Task</a>
+                <% } %>
+              </div>
+          </div>
+
+          <% let totalExpense = 0 %>
+            <% reimbursement.map(data => { %>
+              <% if(data.status.isApproved) totalExpense += data.expense %>
+                <% }) %>
+                  <h2 class="text-left mt-2">
+                    Total Expense: IDR
+                    <%= totalExpense.toLocaleString("INA") %>
+                  </h2>
+                  <table class="table mt-3">
+                    <thead class="thead-light">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Project/Prospect Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Expense</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Create Date</th>
+                        <th scope="col">Foto</th>
+                        <% if (currentUser && currentUser.role === "Admin") { %>
+                          <th scope="col">Action</th>
+                          <% } %>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% reimbursement.map((reimbursement, index) => { %>
+                        <tr>
+                          <th scope="row">
+                            <%= index +1 %>
+                          </th>
+                          <td>
+                            <%= reimbursement.createBy.name %>
+                          </td>
+                          <td>
+                            <% if (currentUser && currentUser.role === "Admin") { %>
+                              <a href="/project/<%= reimbursement.projectOrProspect._id %>">
+                                <%= reimbursement.projectOrProspect.name %>
+                              </a>
+                              <% } else { %>
+                                <%= reimbursement.projectOrProspect.name %>
+                                  <% } %>
+
+                          </td>
+                          <td>
+                            <%= reimbursement.projectOrProspect.category %>
+                          </td>
+                          <td> Rp.
+                            <%= reimbursement.expense.toLocaleString("INA") %>
+                          </td>
+                          <td>
+                            <%= reimbursement.description %>
+                          </td>
+                          <td>
+                            <% if (reimbursement.status.isApproved) { %>
+                              <p class="btn btn-success btn-sm">Approved</p>
+                              <% } else if (reimbursement.status.isDecline) { %>
+                                <p class="btn btn-danger btn-sm">Declined</p>
+                                <% } else { %>
+                                  <p class="btn btn-primary btn-sm">Pending</p>
+                                  <% } %>
+                          </td>
+                          <td>
+                            <%= moment(reimbursement.date).format("L") %>
+                          </td>
+                          <td>
+                            <%= moment(reimbursement.createDate).format("L") %>
+                          </td>
+                          <td>
+
+                            <img src="<%= reimbursement.foto %>" class="img-fluid" id="reimbursementFoto" onclick="openImage(this)">
+
+                          </td>
+                          <td>
+                            <% if (currentUser && currentUser.role === "Admin") { %>
+                              <% if (reimbursement.status.isApproved || reimbursement.status.isDecline) { %>
+                                <h5 class="text-center text-info"> - </h5>
+                                <% } else { %>
+                                  <form action="/reimbursement/<%= reimbursement._id %>/approve?_method=PUT" method="POST">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                      <button type="submit" class="btn btn-danger btn-sm">Approve</button>
+                                  </form>
+
+                                  <form action="/reimbursement/<%= reimbursement._id %>/decline?_method=PUT" method="POST">
+                                    <button type="submit" class="btn btn-light btn-sm">Decline</button>
+                                  </form>
+                                  </div>
+                                  <% } %>
+                                    <% } %>
+                          </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                  </table>
         </div>
       </div>
     </div>
-    <% } %>
-
-      <div class="reimbursement-list">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12 m-auto">
-              <!-- The Modal -->
-              <div id="modalImage" class="modal">
-
-                <!-- The Close Button -->
-                <span class="close">&times;</span>
-
-                <!-- Modal Content (The Image) -->
-                <img class="modal-content" id="img01">
-              </div>
-
-              <% if (totalExpense !== "undefined") { %>
-                <h2 class="text-left mt-4 border-bottom">
-                  Total Expense: IDR
-                  <%= totalExpense.toLocaleString() %>
-                    </h5>
-                    <% } %>
-                      <table class="table mt-3">
-                        <thead class="thead-light">
-                          <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Project Name</th>
-                            <th scope="col">Expense</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Create Date</th>
-                            <th scope="col">Image</th>
-                            <% if (currentUser && currentUser.role === "Admin") { %>
-                              <th scope="col">Action</th>
-                              <% } %>
-
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <% reimbursement.map((reimbursement, index) => { %>
-                            <tr>
-                              <th scope="row">
-                                <%= index +1 %>
-                              </th>
-                              <td>
-                                <%= reimbursement.createBy.name %>
-                              </td>
-                              <td>
-                                <%= reimbursement.projectName %>
-                              </td>
-                              <td> Rp.
-                                <%= reimbursement.expense.toLocaleString("INA") %>
-                              </td>
-                              <td>
-                                <% if (reimbursement.status.isApproved) { %>
-                                  <p class="btn btn-success btn-sm">Approved</p>
-                                  <% } else if (reimbursement.status.isDecline) { %>
-                                    <p class="btn btn-danger btn-sm">Declined</p>
-                                    <% } else { %>
-                                      <p class="btn btn-primary btn-sm">Pending</p>
-                                      <% } %>
-                              </td>
-                              <td>
-                                <%= moment(reimbursement.date).format("L") %>
-                              </td>
-                              <td>
-                                <%= moment(reimbursement.createDate).format("L") %>
-                              </td>
-                              <td>
-
-                                <img src="<%= reimbursement.foto %>" class="img-fluid" id="reimbursementFoto" onclick="openImage(this)">
-
-                              </td>
-                              <td>
-                                <% if (currentUser && currentUser.role === "Admin") { %>
-                                  <% if (reimbursement.status.isApproved || reimbursement.status.isDecline) { %>
-                                    <h5 class="text-center text-info"> - </h5>
-                                    <% } else { %>
-                                      <form action="/reimbursement/<%= reimbursement._id %>/approve?_method=PUT" method="POST">
-                                        <div class="btn-group" role="group" aria-label="Basic example">
-                                          <button type="submit" class="btn btn-danger btn-sm">Approve</button>
-                                      </form>
-
-                                      <form action="/reimbursement/<%= reimbursement._id %>/decline?_method=PUT" method="POST">
-                                        <button type="submit" class="btn btn-light btn-sm">Decline</button>
-                                      </form>
-                                      </div>
-                                      <% } %>
-                                        <% } %>
-                              </td>
-                            </tr>
-                            <% }) %>
-
-
-
-                        </tbody>
-                      </table>
-            </div>
-          </div>
-        </div>
-      </div>
-      <script src="/script/reimbursementFoto.js"></script>
-
-      <% include ../../partials/footer %>
+  </div>
+  <script src="/script/reimbursementFoto.js"></script>
+  <% include ../../partials/footer %>

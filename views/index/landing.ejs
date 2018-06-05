@@ -11,13 +11,13 @@
             </p>
             <hr />
             <% if (currentUser && currentUser.role === "Admin") { %>
-              <a href="/user/management" class="btn btn-lg btn-outline-light">Go To User Management Menu</a>
-              <a href="/reimbursement/menu" class="btn btn-lg btn-outline-light">Go To Reimbursement Menu</a>
+              <a href="/user/management" class="btn btn-lg btn-outline-warning mr-3 pb-2">Go To User Management Menu</a>
+              <a href="/reimbursement/menu" class="btn btn-lg btn-outline-primary">Go To Reimbursement Menu</a>
               <% } else if (currentUser && currentUser.role ==="Programmer") { %>
                 <a href="/reimbursement/menu" class="btn btn-lg btn-outline-light">Go To Reimbursement Menu</a>
                 <% } else if (currentUser && currentUser.role === "Sales") { %>
-                  <a href="/reimbursement/menu" class="btn btn-lg btn-outline-danger mr-2">Go To Reimbursement Menu</a>
-                  <a href="/project/menu" class="btn btn-lg btn-outline-light">Go To Project Menu</a>
+                  <a href="/reimbursement/menu" class="btn btn-lg btn-outline-danger mr-3 pb-2">Go To Reimbursement Menu</a>
+                  <a href="/project/menu" class="btn btn-lg btn-outline-light">Go To Project/Prospect Menu</a>
                   <% } else { %>
                     <a href="/user/login" class="btn btn-lg btn-outline-primary">Login</a>
                     <% } %>

@@ -6,6 +6,10 @@ const ProjectSchema = {
     type: String,
     required: true
   },
+  category: {
+    type: String,
+    required: true
+  },
   client_name: {
     type: String,
     required: true
@@ -21,9 +25,15 @@ const ProjectSchema = {
     },
     name: {
       type: String,
-      require: true
+      required: true
     }
-  }
+  },
+  reimbursementList: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Reimbursement"
+    }
+  ]
 };
 
 module.exports = mongoose.model("Project", ProjectSchema);

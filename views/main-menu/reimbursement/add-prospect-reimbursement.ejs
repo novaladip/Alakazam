@@ -1,0 +1,45 @@
+<% include ../../partials/header %>
+
+  <div class="create-user mt-2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 m-auto border">
+          <h1 class="text-center">Claim Reimbursement on Prospect Task</h3>
+            <a href="/reimbursement/menu" class="btn btn-info mb-2">Back To Reimbursement Menu</a>
+            <form action="/reimbursement" method="POST" enctype="multipart/form-data" onsubmit="return formValidation()">
+              <div class="form-group">
+                <select name="name" class="form-control form-control-lg" id="name">
+                  <% prospectList.map(data => { %>
+                    <option value="<%= data._id %>">
+                      <%= data.name %>
+                    </option>
+                    <% }) %>
+                </select>
+                <small class="form-text text-muted">Please select project name</small>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control form-control-lg" placeholder="Description" name="description" id="description">
+                <small className="form-text text-muted" id="descriptionInfo">Tell us about the reimbursement details!</small>
+              </div>
+              <div class="form-group">
+                <input type="number" class="form-control form-control-lg" placeholder="20500" name="expense" id="expense">
+                <small className="form-text text-muted" id="expenseInfo">Example input 25000</small>
+              </div>
+              <div class="form-group">
+                <input type="date" class="form-control form-control-lg" placeholder="Date" name="date" id="date" />
+                <small class="form-text text-muted" id="dateInfo"></small>
+              </div>
+              <div class="form-group">
+                <input type="file" class="form-control form-control-lg" name="image" id="inputFoto" />
+                <small class="form-text text-muted" id="imageInfo">Bill Foto</small>
+              </div>
+              <input type="submit" class="btn btn-danger btn-block mt-4 mb-4" id="submitBtn" />
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% include ../../partials/footer %>
+
+    <script src="/script/formValidation/reimbursement-menu.js"></script>
