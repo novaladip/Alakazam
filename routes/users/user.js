@@ -14,7 +14,10 @@ router.get("/management", middleware.isAdmin, (req, res) => {
   User.find()
     .sort({ createDate: -1 })
     .then(user => {
-      res.render("./main-menu/user-management/user-management", { user: user });
+      res.render("./main-menu/user-management/user-management", {
+        user: user,
+        title: "User Management Menu"
+      });
     })
     .catch(err => {
       req.flash("error", "Something went wrong, please try again later.");
@@ -52,7 +55,8 @@ router.post("/", middleware.isAdmin, (req, res) => {
 router.get("/edit/:user_id", middleware.isAdmin, (req, res) => {
   User.findById(req.params.user_id).then(foundUser => {
     res.render("./main-menu/user-management/edit-user.ejs", {
-      user: foundUser
+      user: foundUser,
+      title: `Edit ${foundUser.name} data`
     });
   });
 });
@@ -80,7 +84,7 @@ router.put("/:user_id", middleware.isAdmin, (req, res) => {
 // @desc    Rendering login form
 // @access  Public
 router.get("/login", (req, res) => {
-  res.render("./auth/login.ejs");
+  res.render("./auth/login.ejs", { title: "Login" });
 });
 
 // @route   POST /user/login

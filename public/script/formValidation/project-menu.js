@@ -16,7 +16,7 @@ const formValidation = () => {
     clientName.className = "form-control form-control is-valid";
     clientNameInfo.className = "valid-feedback";
     clientNameInfo.innerHTML = "Looks good";
-    isValid = false;
+    isValid = true;
   }
 
   if (projectName.value.length < 1) {

@@ -31,13 +31,14 @@ router.get("/menu", middleware.isLoggedIn, (req, res) => {
     .exec()
     .then(reimbursement => {
       res.render("main-menu/reimbursement/reimbursement-menu", {
-        reimbursement: reimbursement
+        reimbursement: reimbursement,
+        title: "Reimbursement Menu"
       });
     });
 });
 
 // @route   GET /reimbursement/add-project
-// @desc    Show form to add reimbursement on project
+// @desc    Show form to add reimbursement on project task
 // @access  Only sales & programmer
 router.get("/add-project", middleware.isSalesOrProgrammer, (req, res) => {
   Project.find({ category: "Project" })
@@ -49,15 +50,17 @@ router.get("/add-project", middleware.isSalesOrProgrammer, (req, res) => {
           "There's no project found, so you can not claim reimbursement now."
         );
         res.redirect("back");
+      } else {
+        res.render("main-menu/reimbursement/add-project-reimbursement", {
+          projectList: projectList,
+          title: "Claim Reimbursement on Project Task"
+        });
       }
-      res.render("main-menu/reimbursement/add-project-reimbursement", {
-        projectList: projectList
-      });
     });
 });
 
 // @route   GET /reimbursement/add-project
-// @desc    Show form to add reimbursement on prospect
+// @desc    Show form to add reimbursement on prospect task
 // @access  Only sales & programmer
 router.get("/add-prospect", middleware.isSalesOrProgrammer, (req, res) => {
   Project.find({ category: "Prospect" })
@@ -71,7 +74,8 @@ router.get("/add-prospect", middleware.isSalesOrProgrammer, (req, res) => {
         res.redirect("back");
       } else {
         res.render("main-menu/reimbursement/add-prospect-reimbursement", {
-          prospectList: prospectList
+          prospectList: prospectList,
+          title: "Claim Reimbursement on Prospect Task"
         });
       }
     });
@@ -107,13 +111,11 @@ router.post(
         .then(createdReimbursement => {
           req.flash(
             "success",
-            `Reimbursement claim for ${
-              createdReimbursement.projectName
-            } has been added, it will be approve/decline by Admin ASAP!`
+            `Reimbursement claim has been added, it will be approve/decline by Admin ASAP!`
           );
           Project.findById(req.body.name).then(project => {
             project.reimbursementList.push(createdReimbursement);
-            project.save().then(savedProject => console.log(savedProject));
+            project.save();
           });
           res.redirect("/reimbursement/menu");
         })

@@ -11,8 +11,6 @@ const submitBtn = document.getElementById("submitBtn");
 
 const formatExpense = amount => amount.toLocaleString("INA");
 
-console.log("in to kiss u");
-
 image.addEventListener("change", e => {
   if (!event.target.files[0].name.match(/\.(jpg|jpeg|png|gif)$/i)) {
     image.className = "form-control form-control-lg is-invalid";

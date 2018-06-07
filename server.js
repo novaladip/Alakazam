@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const favicon = require("serve-favicon");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -9,6 +10,7 @@ const methodOverride = require("method-override");
 const morgan = require("morgan");
 const compression = require("compression");
 const zlip = require("zlib");
+const path = require("path");
 
 // Load User Models
 const User = require("./models/User");
@@ -27,7 +29,10 @@ const dbOption = {
 };
 
 mongoose
-  .connect(db, dbOption)
+  .connect(
+    db,
+    dbOption
+  )
   .then(() => console.log("Connected to DB Host"))
   .catch(err => console.log(err.message));
 
@@ -43,6 +48,7 @@ app.use(flash());
 app.use(compression(9));
 app.use(morgan("dev"));
 app.use(express.static("public"));
+app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 app.set("view engine", "ejs");
 
 // Passport Configuration

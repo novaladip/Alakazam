@@ -14,7 +14,10 @@ router.get("/menu", (req, res) => {
     .populate("createBy.id")
     .exec()
     .then(project => {
-      res.render("./main-menu/project/project-menu", { project: project });
+      res.render("./main-menu/project/project-menu", {
+        project: project,
+        title: "Project/Prospect Menu"
+      });
     });
 });
 
@@ -58,7 +61,8 @@ router.get("/:id", middleware.isAdmin, (req, res) => {
     })
     .then(data => {
       res.render("main-menu/project/project-detail", {
-        data: data
+        data: data,
+        title: `Reimbursement Report on ${data.name} ${data.category}`
       });
     });
 });

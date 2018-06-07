@@ -5,7 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>K1NGQU</title>
+  <title>
+    <% if(typeof title !== 'undefined') { %>
+      <%= title %>
+        <% } else { %>
+          K1NGQU
+          <% } %>
+  </title>
   <!-- BOOTSTRAP CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
     crossorigin="anonymous">
@@ -59,7 +65,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                           <a class="dropdown-item" href="/project/menu">
                             <i class="fas fa-users-cog"></i>
-                            <small>Project Menu</small>
+                            <small>Project/Prospect Menu</small>
                           </a>
                           <a class="dropdown-item" href="/reimbursement/menu">
                             <i class="fas fa-money-bill-alt"></i>

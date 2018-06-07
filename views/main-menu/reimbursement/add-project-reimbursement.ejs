@@ -12,7 +12,8 @@
               <select name="name" class="form-control form-control-lg" id="name">
                 <% projectList.map(data => { %>
                   <option value="<%= data._id %>">
-                    <%= data.name %>
+                    <%= data.name %> -
+                      <%= data.client_name %>
                   </option>
                   <% }) %>
               </select>

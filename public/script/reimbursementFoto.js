@@ -18,5 +18,3 @@ openImage = imgs => {
     modal.style.display = "none";
   };
 };
-
-// Get the modal
